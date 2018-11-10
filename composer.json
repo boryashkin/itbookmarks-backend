@@ -1,6 +1,7 @@
 {
   "require": {
     "ext-mongo": "*",
+    "ext-json": "*",
     "slim/slim": "^3.11",
     "mongodb/mongodb": "^1.4"
   },

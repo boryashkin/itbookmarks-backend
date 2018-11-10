@@ -14,7 +14,8 @@ services:
         depends_on:
         - php-api
     php-api:
-        image: php:7.2-fpm
+        container_name: "php-api"
+        build: "./docker"
         restart: always
         depends_on:
             - composer
@@ -25,7 +26,7 @@ services:
         working_dir: /app
         volumes:
             - "./:/app"
-        command: "update -v --no-dev && install --no-dev --prefer-dist"
+        command: "update -v --no-dev --ignore-platform-reqs && install --no-dev --prefer-dist"
     mongo:
         image: mongo:4.1.5-xenial
         container_name: ${MONGO_HOST}
