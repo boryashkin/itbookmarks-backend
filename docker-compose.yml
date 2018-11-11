@@ -14,10 +14,15 @@ services:
         depends_on:
         - php-api
     php-api:
-        image: php:7.2-fpm
+        container_name: "php-api"
+        build: "./docker"
         restart: always
         depends_on:
             - composer
+        environment:
+          JIRA_CLIENT_ID: ${JIRA_CLIENT_ID}
+          JIRA_SECRET: ${JIRA_SECRET}
+          JIRA_REDIRECT: ${JIRA_REDIRECT}
         volumes:
             - "./:/var/www/html"
     composer:
@@ -25,19 +30,11 @@ services:
         working_dir: /app
         volumes:
             - "./:/app"
-        command: install
-    mysqldb:
-        image: mysql:${MYSQL_VERSION}
-        container_name: ${MYSQL_HOST}
+        command: "update -v --no-dev --ignore-platform-reqs && install --no-dev --prefer-dist"
+    mongo:
+        image: mongo:4.1.5-xenial
+        container_name: ${MONGO_HOST}
         restart: always
-        env_file:
-        - ".env"
         environment:
-        - MYSQL_DATABASE=${MYSQL_DATABASE}
-        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        - MYSQL_USER=${MYSQL_USER}
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        ports:
-        - "8989:3306"
-        volumes:
-        - "./data/db/mysql:/var/lib/mysql"
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
