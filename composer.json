@@ -4,7 +4,8 @@
     "ext-json": "*",
     "slim/slim": "^3.11",
     "mongodb/mongodb": "^1.4",
-    "league/oauth2-client": "^2.3"
+    "league/oauth2-client": "^2.3",
+    "lcobucci/jwt": "^3.2"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master"

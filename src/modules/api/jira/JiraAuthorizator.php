@@ -16,12 +16,20 @@ class JiraAuthorizator
             'urlAuthorize'            => 'https://auth.atlassian.com/oauth/authorize',
             'urlAccessToken'          => 'https://auth.atlassian.com/oauth/token',
             'urlResourceOwnerDetails' => '/', //Не реализовано
-            'scopes'                  => 'basic',
+            'scopes'                  => 'todo',
         ]);
 
-        return $provider->getAccessToken('authorization_code', [
+        $jwtToken = $provider->getAccessToken('authorization_code', [
             'code' => $authCode,
             'redirect_uri' => getenv('JIRA_REDIRECT'),
         ]);
+        $jwt = (new \Lcobucci\JWT\Parser())->parse($jwtToken->getToken());
+        $accountId = $jwt->getClaim('sub');
+        $scopes = $jwt->getClaim('scopes');
+        if ($jwt->isExpired()) {
+            //?
+        }
+
+        return $jwtToken;
     }
 }
