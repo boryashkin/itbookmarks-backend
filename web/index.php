@@ -1,11 +1,11 @@
 <?php
-define('ENV_PROD', false);
+define('ENV_PROD', true);
 
 require '../vendor/autoload.php';
 
 $container = new \Slim\Container([
     'settings' => [
-        'displayErrorDetails' => ENV_PROD,
+        'displayErrorDetails' => !ENV_PROD,
     ],
 ]);
 $app = new Slim\App($container);

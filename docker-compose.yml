@@ -19,6 +19,10 @@ services:
         restart: always
         depends_on:
             - composer
+        environment:
+          JIRA_CLIENT_ID: ${JIRA_CLIENT_ID}
+          JIRA_SECRET: ${JIRA_SECRET}
+          JIRA_REDIRECT: ${JIRA_REDIRECT}
         volumes:
             - "./:/var/www/html"
     composer:

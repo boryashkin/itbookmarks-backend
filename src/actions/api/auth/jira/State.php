@@ -12,8 +12,9 @@ class State extends BaseAction
         $server = $request->getServerParams();
         $remoteAddr = $server['REMOTE_ADDR'];
         $userAgent = $server['HTTP_USER_AGENT'];
+        $state = md5($remoteAddr . $userAgent);
         /** @var ServerRequestInterface $request */
-        $response->getBody()->write(json_encode(['state' => md5($remoteAddr . $userAgent)]));
+        $response->getBody()->write(json_encode(['state' => $state]));
 
         return $response;
     }
