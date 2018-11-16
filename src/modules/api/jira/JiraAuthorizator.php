@@ -1,6 +1,9 @@
 <?php
 namespace app\modules\api\jira;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+
 class JiraAuthorizator
 {
     /**
@@ -31,5 +34,20 @@ class JiraAuthorizator
         }
 
         return $jwtToken;
+    }
+
+    /**
+     * @param string $token
+     * @return false|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function exploreResources(string $token)
+    {
+        $url = 'https://api.atlassian.com/oauth/token/accessible-resources';
+        $request = new Request('GET', $url, ['authorization' => $token, 'Accept' => 'application/json']);
+        $client = new Client();
+        $response = $client->send($request);
+
+        return $response->getBody()->getContents();
     }
 }
