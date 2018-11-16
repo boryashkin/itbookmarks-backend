@@ -24,8 +24,8 @@ class JiraAuthorizator
             'redirect_uri' => getenv('JIRA_REDIRECT'),
         ]);
         $jwt = (new \Lcobucci\JWT\Parser())->parse($jwtToken->getToken());
-        $accountId = $jwt->getClaim('sub');
-        $scopes = $jwt->getClaim('scopes');
+        //$accountId = $jwt->getClaim('sub');
+        //$scopes = $jwt->getClaim('scopes');
         if ($jwt->isExpired()) {
             //?
         }
