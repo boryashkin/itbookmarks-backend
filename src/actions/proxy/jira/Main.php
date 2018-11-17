@@ -27,9 +27,7 @@ class Main extends BaseAction
         $client = new Client();
         $jiraRequest = clone $request;
         $jiraRequest = $jiraRequest->withUri(new Uri($url));
-        $jiraResponse = $client->send($jiraRequest);
-        $response->getBody()->write($jiraResponse->getBody()->getContents());
 
-        return $response;
+        return $client->send($jiraRequest);
     }
 }
