@@ -4,6 +4,7 @@ namespace app\actions\proxy\jira;
 use app\abstracts\BaseAction;
 use app\modules\proxy\jira\UrlBuilder;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Uri;
 use MongoDB\Exception\BadMethodCallException;
 use Psr\Http\Message\ResponseInterface;
@@ -27,7 +28,12 @@ class Main extends BaseAction
         $client = new Client();
         $jiraRequest = clone $request;
         $jiraRequest = $jiraRequest->withUri(new Uri($url));
+        try {
+            $jiraResponse = $client->send($jiraRequest);
+        } catch (RequestException $e) {
+            $jiraResponse = $e->getResponse();
+        }
 
-        return $client->send($jiraRequest);
+        return $jiraResponse;
     }
 }
