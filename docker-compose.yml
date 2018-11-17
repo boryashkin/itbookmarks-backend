@@ -14,7 +14,7 @@ services:
         depends_on:
         - php-api
     php-api:
-        container_name: "php-api"
+        container_name: "itbook-php-api"
         build: "./docker"
         restart: always
         depends_on:
